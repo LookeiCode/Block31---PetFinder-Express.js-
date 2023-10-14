@@ -7,10 +7,10 @@
 
 // LESSON START
 // 1. We start in the terminal with "npm init -y" to get an "empty" JSON with dependencies
-// 2. Then we install Express and nodemon to use in our project
+// 2. Then we install Express and nodemon to use in our project (npm i express nodemon)
 // 3. We add a new "start" script in our package.json - "nodemon fileName.js" (whatever you name your server file)
 // This allows your server to constantly update changes (it restarts every time you make a change)
-// 4. Back in the terminal, we instal "body-parser" - npm i body-parser
+// 4. Back in the terminal, we install "body-parser" - npm i body-parser
 
 // Creating our Express.js
 const express = require('express');
@@ -88,6 +88,7 @@ if (!user) {
 res.status(200).json(user);
 })
 
+// DELETE
 app.delete('/api/customers/:id', (req, res) => {
     const userId = parseInt(req.params.id);
     const index = users.findIndex((u) => u.id === userId);
@@ -106,6 +107,7 @@ app.delete('/api/customers/:id', (req, res) => {
     // WHAT'S HAPPENING HERE - we index through the users array, findIndex targets an id from a user we specify, userID parses the ID string into a number (integer), then on L102 we splice (isolate/target) that ID from the index for deletion
 })
 
+// PUT
 app.put('/api/customers/update/:id', (req, res) => {
     const userId = parseInt(req.params.id)
     const updateUser = req.body
