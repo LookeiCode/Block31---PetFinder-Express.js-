@@ -1,9 +1,9 @@
 // API END POINTS
-// GET - 
-// POST - 
-// PUT - 
-// PATCH - 
-// DELETE - 
+// GET - Fetches everything from database (or a specific user via id) - it just fetches things
+// POST - Creates a new entry
+// PUT - Updates an entry from scratch
+// PATCH - Updates a specific part
+// DELETE - Deletes
 
 // LESSON START
 // 1. We start in the terminal with "npm init -y" to get an "empty" JSON with dependencies
@@ -104,6 +104,23 @@ app.delete('/api/customers/:id', (req, res) => {
     // The status 200 here would just mean it was successfully deleted
 
     // WHAT'S HAPPENING HERE - we index through the users array, findIndex targets an id from a user we specify, userID parses the ID string into a number (integer), then on L102 we splice (isolate/target) that ID from the index for deletion
+})
+
+app.put('/api/customers/update/:id', (req, res) => {
+    const userId = parseInt(req.params.id)
+    const updateUser = req.body
+    //updateUser will grab whatever is in the body in Postman then update the user with the ID we specify/target
+
+    const index = users.findIndex((u) => u.id === userId);
+
+    if (index === -1) {
+        return res.status(404).json({error: 'User not found'})
+    }
+
+    // The index below is open-ended - it looks like a word but it really just represents an integer (id number in this case)
+    // Example: users[1], or it could be users[2], etc - it's whatever ID you specify/target
+    users[index] = {...users[index], ...updateUser}
+    res.status(200).json(users[index])
 })
 
 app.listen(port, () => {
