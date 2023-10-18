@@ -1,9 +1,11 @@
 // API END POINTS
-// GET - Fetches everything from database (or a specific user via id) - it just fetches things
-// POST - Creates a new entry
-// PUT - Updates an entry from scratch
-// PATCH - Updates a specific part
+// GET - (Read) Fetches everything from database (or a specific user via id) - you're just asking to see something
+// POST - (Create) Creates a brand new entry
+// PUT - (Update) Updates an entry from scratch
+// PATCH - (Update) Updates a specific part
 // DELETE - Deletes
+
+// CRUD = Create - Read - Update - Delete
 
 // LESSON START
 // 1. We start in the terminal with "npm init -y" to get an "empty" JSON with dependencies
@@ -44,15 +46,16 @@ const users = [
 
 // POST
 app.post('/api/customers/new', (req, res) => {
+    //                   request ^    ^ response
     
-// Put this --> http://localhost:8080/api/customers <-- inside of Postman (make sure it's on POST)
+// Put this --> http://localhost:8080/api/customers <-- inside of Postman (make sure it's on POST for this POST method)
     // console.log(req);
     // console.log(res);
 // Un-comment the console logs, start server, and send a post request from Postman to see what req or res return in the console (one at a time)
 
-// L56 - Defining a newUser variable that requests the body - which whenever we push a post request, whatevers in the body (whatever we write in the JSON body on Postman) becomes the newUser's properties (name, email, etc) - ( ?? it seems newUser becomes an object? That we then push to the "users" array that becomes an array of objects ??)
-// L58 - Then we simply push that "newUser" data into the "users" array - now there's a newUser in the users array WITH the data from the body
-// L59 - Just adding a status code telling the user that the request went through - 201 is 'successfully created" - look up status codes to find what others mean
+// L59 - Defining a newUser variable that requests the body - which whenever we push a post request, whatevers in the body (whatever we write in the JSON body on Postman) becomes the newUser's properties (name, email, etc) - ( ?? it seems newUser becomes an object? That we then push to the "users" array that becomes an array of objects ??)
+// L61 - Then we simply push that "newUser" data into the "users" array - now there's a newUser in the users array WITH the data from the body
+// L62 - Just adding a status code telling the user that the request went through - 201 is 'successfully created" - look up status codes to find what others mean
 const newUser = req.body
 // console.log(newUser) <-- push the POST request on Postman with something in the body and check the console to see the result of newUser
 users.push(newUser)
@@ -62,20 +65,20 @@ res.status(201).json(newUser)
 // GET
 
 app.get('/api/customers', (req, res) => {
-// Basically just returns the array "users" (on L27) in JSON format
+// Basically just returns the array "users" (on L29) in JSON format
      res.status(200).json(users)
 })
-// We need to put something in here otherwise the GET will response/return with an empty array
+// We need to put something the array otherwise the GET will response/return with an empty array
 
 // We added an :id to the end of our route - obviously we're searching for a specific customer by id with this route - you can have :name or whatever you want
 app.get('/api/customers/:id', (req, res) => {
 // we do "parseInt" because JSON returns everything in strings, but the id is a number, so parseInt turns the id number (that's a string because of JSON) into an actual number (typeof)
 const userId = parseInt(req.params.id);
 
-// If we add a id, which is a number, on to the end of our route, you can observe in the console via the console log that it will return the number
+// If we add an id, which is a number, on to the end of our route, you can observe in the console via the console log that it will return the number
 // Example: http://localhost:8080/api/customers/1 <--- will return "1" in the console
 // You must push the GET request via Postman to see the console log
-// The console log on L81 will show the result
+// The console log on L84 will show the result
 
 const user = users.find(user => user.id === userId);
 console.log(user);
@@ -99,7 +102,7 @@ app.delete('/api/customers/:id', (req, res) => {
     }
 
     // Splices the array and isolates one element then deletes it (because this is a DELETE endpoint)
-    // If the index does find someone (the ID exists) it returns 1, and that ID that we got from L92 is targeted for deletion
+    // If the index does find someone (the ID exists) it returns 1, and that ID that we got from L97 is targeted for deletion
     users.splice(index, 1);
     res.status(204).send();
     // The status 200 here would just mean it was successfully deleted
